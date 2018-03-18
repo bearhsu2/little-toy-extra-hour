@@ -95,7 +95,10 @@ public class CalculatorTest {
         punchData.setCheckinTime(LocalTime.of(10, 0));
         punchData.setCheckoutTime(LocalTime.of(23, 10));
 
+
         double workHour = calculator.computeRealHours(data, punchData);
         Assert.assertEquals(11, workHour, 0);
     }
+
+
 }

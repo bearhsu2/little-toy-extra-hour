@@ -9,7 +9,6 @@ import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
@@ -19,33 +18,25 @@ import java.util.stream.Stream;
 public class Calculator {
     List<ApplicationData> applicationDataList;
     List<PunchData> punchDataList;
+    private List<ApprovedData> approvedDataList;
 
     public Calculator(List<ApplicationData> applicationDataList, List<PunchData> punchDataList) {
         this.applicationDataList = applicationDataList;
         this.punchDataList = punchDataList;
+        this.approvedDataList = new ArrayList<>();
     }
 
     public void calculate() {
-//        Stream<ApprovedData> dataStream = createApproveDatas(applicationDataList);
 //
         Stream<ApplicationData> applicationDataStream = applicationDataList.stream();
         Stream<PunchData> punchDataStream = punchDataList.stream();
-        List<ApprovedData> approvedDataList = new ArrayList<>();
 
-        applicationDataStream.forEach(new Consumer<ApplicationData>() {
-            @Override
-            public void accept(ApplicationData applicationData) {
+        approvedDataList = applicationDataStream.map((applicationData) -> mapToApproveData(applicationData, punchDataStream)).collect(Collectors.toList());
 
+    }
 
-                ApprovedData approvedData = mapToApproveData(applicationData, punchDataStream);
-
-            }
-        });
-
-        // compare to punch data
-        // rearrange application time
-        // calculate hour
-        // multiple
+    public List<ApprovedData> getApprovedDataList() {
+        return approvedDataList;
     }
 
     private ApprovedData mapToApproveData(ApplicationData applicationData, Stream<PunchData> punchDataStream) {
@@ -114,27 +105,32 @@ public class Calculator {
     }
 
     double computeWeightHourOnNormalDay(double realHours) {
-        return 0;
+        double[] weightTable = {1.3333, 1.3333, 1.6666, 1.6666, 1.6666, 1.6666, 1.6666, 1.6666, 1.6666, 1.6666};
+        return multHourWith(realHours, weightTable);
     }
 
     double computeWeightHourOnSunday(double realHours) {
-        return 0;
+        double[] weightTable = {8, 0, 0, 0, 0, 0, 0, 0, 1.333333, 1.333333, 1.66666, 1.66666, 1.66666, 1.66666, 1.66666, 1.66666, 1.66666, 1.66666, 1.66666};
+        return multHourWith(realHours, weightTable);
+    }
+
+    private double multHourWith(double hour, double[] weightTable) {
+        double sum = 0;
+        for (int i = 0; hour > 0; i++) {
+            if (hour >= 1) {
+                sum += weightTable[i];
+            } else {
+                sum += hour * weightTable[i];
+            }
+            hour--;
+        }
+        return Math.round(sum * 100) * 0.01;
     }
 
     double computeWeightHourOnSaturday(double realWorkHours) {
         double[] weightTable = {1.333333, 1.333333, 1.666666, 1.666666, 1.666666, 1.666666, 1.666666, 1.666666
                 , 2.666666, 2.666666, 2.666666, 2.666666, 2.666666, 2.666666, 2.666666, 2.666666};
-
-        double sum = 0;
-        for (int i = 0; realWorkHours > 0; i++) {
-            if (realWorkHours >= 1) {
-                sum += weightTable[i];
-            } else {
-                sum += realWorkHours * weightTable[i];
-            }
-            realWorkHours--;
-        }
-        return Math.round(sum * 100) * 0.01;
+        return multHourWith(realWorkHours, weightTable);
     }
 
     double computeAppliedHours(LocalTime start, LocalTime end) {

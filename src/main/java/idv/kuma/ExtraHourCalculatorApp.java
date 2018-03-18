@@ -50,6 +50,7 @@ public class ExtraHourCalculatorApp {
     }
 
     private void output() {
+
     }
 
     public static void main(String[] args) {
