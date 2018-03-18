@@ -22,23 +22,20 @@ public class PunchDataLineParser {
 
         String[] elements = line.split(",");
 
-        if (elements.length > 10) {
-            punchData.setEmployeeId(Integer.parseInt(elements[0]));
-            punchData.setName(elements[2]);
+        punchData.setEmployeeId(Integer.parseInt(elements[0]));
+        punchData.setName(elements[2]);
 
-            if (!elements[3].isEmpty()) {
-                punchData.setPunchDate(LocalDate.parse(elements[3].substring(0, 10), Constants.date_formatter));
-            }
-            if (!elements[5].isEmpty()) {
-                String parsedCheckInTime = elements[5].replace("* ", "").substring(0, 8);
-                punchData.setCheckinTime(LocalTime.parse(parsedCheckInTime, Constants.timeFormatter));
-            }
-            if (!elements[7].isEmpty()) {
-                String parsedCheckoutTime = elements[7].replace("* ", "").substring(0, 8);
-                punchData.setCheckoutTime(LocalTime.parse(parsedCheckoutTime, Constants.timeFormatter));
-            }
-            return punchData;
+        if (!elements[3].isEmpty()) {
+            punchData.setPunchDate(LocalDate.parse(elements[3].substring(0, 10), Constants.date_formatter));
         }
-        return null;
+        if (!elements[5].isEmpty()) {
+            String parsedCheckInTime = elements[5].replace("* ", "").substring(0, 8);
+            punchData.setCheckinTime(LocalTime.parse(parsedCheckInTime, Constants.timeFormatter));
+        }
+        if (!elements[7].isEmpty()) {
+            String parsedCheckoutTime = elements[7].replace("* ", "").substring(0, 8);
+            punchData.setCheckoutTime(LocalTime.parse(parsedCheckoutTime, Constants.timeFormatter));
+        }
+        return punchData;
     }
 }
