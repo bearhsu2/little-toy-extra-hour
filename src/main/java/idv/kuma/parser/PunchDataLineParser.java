@@ -22,6 +22,10 @@ public class PunchDataLineParser {
 
         String[] elements = line.split(",");
 
+        if (elements.length <7){
+            // no data
+            return null;
+        }
         punchData.setEmployeeId(Integer.parseInt(elements[0]));
         punchData.setName(elements[2]);
 

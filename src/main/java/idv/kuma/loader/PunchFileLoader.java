@@ -61,6 +61,7 @@ public class PunchFileLoader {
 
             }
         } finally {
+            System.out.println(line);
             bufferedReader.close();
         }
 

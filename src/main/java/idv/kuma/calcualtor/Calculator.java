@@ -29,9 +29,8 @@ public class Calculator {
     public void calculate() {
 //
         Stream<ApplicationData> applicationDataStream = applicationDataList.stream();
-        Stream<PunchData> punchDataStream = punchDataList.stream();
 
-        approvedDataList = applicationDataStream.map((applicationData) -> mapToApproveData(applicationData, punchDataStream)).collect(Collectors.toList());
+        approvedDataList = applicationDataStream.map((applicationData) -> mapToApproveData(applicationData,punchDataList)).collect(Collectors.toList());
 
     }
 
@@ -39,7 +38,8 @@ public class Calculator {
         return approvedDataList;
     }
 
-    private ApprovedData mapToApproveData(ApplicationData applicationData, Stream<PunchData> punchDataStream) {
+    private ApprovedData mapToApproveData(ApplicationData applicationData, List<PunchData> punchDataList) {
+        Stream<PunchData> punchDataStream = punchDataList.stream();
         List<PunchData> workDays = punchDataStream.filter(punchData ->
                 punchData.getEmployeeId() == applicationData.getEmployeeId()
                         && punchData.getPunchDate().equals(applicationData.getEndTime().toLocalDate()))

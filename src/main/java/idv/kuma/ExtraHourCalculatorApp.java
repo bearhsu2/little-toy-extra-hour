@@ -4,7 +4,9 @@ import idv.kuma.calcualtor.Calculator;
 import idv.kuma.loader.ApplicationFileLoader;
 import idv.kuma.loader.PunchFileLoader;
 import idv.kuma.vo.ApplicationData;
+import idv.kuma.vo.ApprovedData;
 import idv.kuma.vo.PunchData;
+import idv.kuma.writer.HourFileWriter;
 
 import java.io.IOException;
 import java.util.List;
@@ -16,6 +18,7 @@ public class ExtraHourCalculatorApp {
 
     List<ApplicationData> applicationDataList;
     List<PunchData> punchDataList;
+    List<ApprovedData> approvedDataList;
 
     public ExtraHourCalculatorApp() {
     }
@@ -46,11 +49,12 @@ public class ExtraHourCalculatorApp {
     private void calculateHours() {
         Calculator calculator = new Calculator(applicationDataList, punchDataList);
         calculator.calculate();
-
+        approvedDataList = calculator.getApprovedDataList();
     }
 
-    private void output() {
-
+    private void output() throws IOException {
+        HourFileWriter writer = new HourFileWriter(approvedDataList);
+        writer.writeData();
     }
 
     public static void main(String[] args) {

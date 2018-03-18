@@ -20,7 +20,7 @@ public class PunchFileLoaderTest {
     public void when_loaded_then_hasItemFromResource() throws IOException {
         loader.loadData();
 
-        Assert.assertEquals(3,loader.dataList.size());
+        Assert.assertEquals(6,loader.dataList.size());
         Assert.assertEquals(201608001,loader.dataList.get(0).getEmployeeId());
     }
 }
