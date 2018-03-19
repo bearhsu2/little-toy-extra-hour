@@ -1,11 +1,10 @@
 package idv.kuma.loader;
 
 
-import idv.kuma.Constants;
+import com.opencsv.CSVReader;
 import idv.kuma.parser.ApplicationDataLineParser;
 import idv.kuma.vo.ApplicationData;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -30,36 +29,14 @@ public class ApplicationFileLoader {
 
         ClassLoader classLoader = getClass().getClassLoader();
         File file = new File(classLoader.getResource(FILE_NAME).getFile());
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
-
-
-        String line;
-
-        line = bufferedReader.readLine();
-        boolean firstLine = true;
 
         ApplicationDataLineParser parser = new ApplicationDataLineParser();
-
-        try {
-            while (line != null) {
-                if (firstLine) {
-                    firstLine = false;
-                    line = bufferedReader.readLine();
-                    continue;
-                }
-
-                // Parse line into ApplicationData
-                dataList.add(parser.parse(line));
-
-                // Update line
-                line = bufferedReader.readLine();
-
+        CSVReader reader = null;
+        reader = new CSVReader(new FileReader(file));
+        String[] line = reader.readNext(); // read the header to pass it;
+        while ((line = reader.readNext()) != null) {
+            dataList.add(parser.parseFromArray(line));
             }
-        } finally {
-            bufferedReader.close();
-        }
-
-        System.out.println("" + Constants.gson.toJson( dataList.get(0) ));
 
     }
 

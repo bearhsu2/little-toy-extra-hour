@@ -33,6 +33,7 @@ public class CalculatorTest2 {
         data.setEmployeeId(5487);
         data.setStartTime(LocalDateTime.of(year, month, day, 10, 0));
         data.setEndTime(LocalDateTime.of(year, month, day, 12, 0));
+        data.setType("平日加班換加班費");
         applicationDataList.add(data);
 
         PunchData punchData = new PunchData();
