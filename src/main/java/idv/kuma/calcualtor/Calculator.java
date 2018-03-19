@@ -4,8 +4,6 @@ import idv.kuma.vo.ApplicationData;
 import idv.kuma.vo.ApprovedData;
 import idv.kuma.vo.PunchData;
 
-import java.time.DayOfWeek;
-import java.time.LocalDate;
 import java.time.LocalTime;
 import java.util.ArrayList;
 import java.util.List;
@@ -55,7 +53,7 @@ public class Calculator {
         } else {
             PunchData punchData = workDays.get(0);
             approvedData.setRealHours(computeRealHours(applicationData, punchData));
-            approvedData.setWeightedHours(computerWeightHours(approvedData.getDate(), approvedData.getRealHours()));
+            approvedData.setWeightedHours(computerWeightHours(approvedData.getType(), approvedData.getRealHours()));
         }
 
         return approvedData;
@@ -73,31 +71,32 @@ public class Calculator {
             endTime = punchData.getCheckoutTime();
         }
 
-        // minus rest time
         double workHours = computeAppliedHours(startTime, endTime);
-        if (workHours >= 5) {
-            // must take rest 1 hour after working 4 hours
-            int restTime = 1;
-            if (workHours >= 9) {
-                restTime = 2;
-            }
-            workHours -= restTime;
-        }
+        double restTime = 0;
+        if (workHours > 4)
+            restTime += 0.5;
+        if (workHours >= 5)
+            restTime += 0.5;
+        if (workHours > 8)
+            restTime += 0.5;
+        if (workHours >= 9)
+            restTime += 0.5;
 
-        return workHours;
+        return workHours - restTime;
     }
 
-    double computerWeightHours(LocalDate date, double realHours) {
+
+    double computerWeightHours(String overtimeType, double realHours) {
         double weightHour = 0;
-        DayOfWeek dayOfWeek = date.getDayOfWeek();
-        switch (dayOfWeek) {
-            case SATURDAY:
-                weightHour = computeWeightHourOnSaturday(realHours);
+        TypeParser type = TypeParser.parseString(overtimeType);
+        switch (type) {
+            case REST_DAT_OVERTIME:
+                weightHour = computeWeightHourOnRestday(realHours);
                 break;
-            case SUNDAY:
-                weightHour = computeWeightHourOnSunday(realHours);
+            case HOLIDAY_OVERTIME:
+                weightHour = computeWeightHourOnHoliday(realHours);
                 break;
-            default:
+            case NORMAL_DAY_OVERTIME:
                 weightHour = computeWeightHourOnNormalDay(realHours);
                 break;
         }
@@ -109,7 +108,7 @@ public class Calculator {
         return multHourWith(realHours, weightTable);
     }
 
-    double computeWeightHourOnSunday(double realHours) {
+    double computeWeightHourOnHoliday(double realHours) {
         double[] weightTable = {8, 0, 0, 0, 0, 0, 0, 0, 1.333333, 1.333333, 1.66666, 1.66666, 1.66666, 1.66666, 1.66666, 1.66666, 1.66666, 1.66666, 1.66666};
         return multHourWith(realHours, weightTable);
     }
@@ -127,7 +126,7 @@ public class Calculator {
         return Math.round(sum * 100) * 0.01;
     }
 
-    double computeWeightHourOnSaturday(double realWorkHours) {
+    double computeWeightHourOnRestday(double realWorkHours) {
         double[] weightTable = {1.333333, 1.333333, 1.666666, 1.666666, 1.666666, 1.666666, 1.666666, 1.666666
                 , 2.666666, 2.666666, 2.666666, 2.666666, 2.666666, 2.666666, 2.666666, 2.666666};
         return multHourWith(realWorkHours, weightTable);

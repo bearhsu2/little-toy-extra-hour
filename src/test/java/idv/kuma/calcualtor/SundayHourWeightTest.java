@@ -47,7 +47,7 @@ public class SundayHourWeightTest {
 
     @Test
     public void checkSaturdayWeight() {
-        double weight = calculator.computeWeightHourOnSunday(workHour);
+        double weight = calculator.computeWeightHourOnHoliday(workHour);
         Assert.assertEquals(Math.round(weightedHour * 100) * 0.01, weight, 0.01);
     }
 }
