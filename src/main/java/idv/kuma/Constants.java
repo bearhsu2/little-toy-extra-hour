@@ -2,6 +2,7 @@ package idv.kuma;
 
 import com.google.gson.Gson;
 
+import java.text.DecimalFormat;
 import java.time.format.DateTimeFormatter;
 
 public class Constants {
@@ -13,5 +14,7 @@ public class Constants {
     public static DateTimeFormatter date_formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
 
     public static Gson gson = new Gson();
+
+    public static DecimalFormat hour_display_formatter = new DecimalFormat("#.###");
 
 }

@@ -1,6 +1,9 @@
 package idv.kuma.parser;
 
+import idv.kuma.Constants;
 import idv.kuma.vo.ApprovedData;
+
+import java.text.DecimalFormat;
 
 public class ApprovedDataLineBridge {
 
@@ -17,7 +20,7 @@ public class ApprovedDataLineBridge {
                 .append(data.getType()).append(split)
                 .append(data.getAppliedHours()).append(split)
                 .append(data.getRealHours()).append(split)
-                .append(data.getWeightedHours());
+                .append(Constants.hour_display_formatter.format(data.getWeightedHours()));
 
         return builder.toString();
     }

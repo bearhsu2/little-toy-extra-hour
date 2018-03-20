@@ -23,9 +23,9 @@ public class SundayHourWeightTest {
                         {3, 8},
                         {4, 8},
                         {8, 8},
-                        {8.5, 8 + 1.33333 * 0.5},
-                        {9, 9.33},
-                        {10, 10.67}
+                        {8.5, 8 + 1.34 * 0.5},
+                        {9, 9.34},
+                        {10, 10.68}
 
                 }
         );
@@ -47,7 +47,7 @@ public class SundayHourWeightTest {
 
     @Test
     public void checkSaturdayWeight() {
-        double weight = calculator.computeWeightHourOnSunday(workHour);
+        double weight = calculator.computeWeightHourOnHoliday(workHour);
         Assert.assertEquals(Math.round(weightedHour * 100) * 0.01, weight, 0.01);
     }
 }

@@ -1,13 +1,10 @@
 package idv.kuma.loader;
 
 
-import idv.kuma.Constants;
-import idv.kuma.parser.ApplicationDataLineParser;
+import com.opencsv.CSVReader;
 import idv.kuma.parser.PunchDataLineParser;
-import idv.kuma.vo.ApplicationData;
 import idv.kuma.vo.PunchData;
 
-import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
@@ -27,46 +24,24 @@ public class PunchFileLoader {
         this.dataList = new ArrayList<>();
     }
 
-    public void loadData() throws IOException {
+    public void setFileName(String fileName){
+        this.FILE_NAME = fileName;
+    }
 
+    public void loadData() throws IOException {
 
         ClassLoader classLoader = getClass().getClassLoader();
         File file = new File(classLoader.getResource(FILE_NAME).getFile());
-        BufferedReader bufferedReader = new BufferedReader(new FileReader(file));
-
-
-        String line;
-
-        line = bufferedReader.readLine();
-        boolean firstLine = true;
 
         PunchDataLineParser parser = new PunchDataLineParser();
 
-        try {
-            while (line != null) {
-                if (firstLine) {
-                    firstLine = false;
-                    line = bufferedReader.readLine();
-                    continue;
-                }
+        CSVReader reader = null;
+        reader = new CSVReader(new FileReader(file));
+        String[] line = reader.readNext(); // read the header to pass it;
+        while ((line = reader.readNext()) != null) {
 
-                // Parse line into ApplicationData
-                PunchData punchData = parser.parse(line);
-                if (punchData != null) {
-                    dataList.add(punchData);
-                }
-
-                // Update line
-                line = bufferedReader.readLine();
-
+            dataList.add(parser.parseFromArray(line));
             }
-        } finally {
-            System.out.println(line);
-            bufferedReader.close();
-        }
-
-        System.out.println("" + Constants.gson.toJson( dataList.get(0) ));
-
     }
 
     public List<PunchData> getDataList() {
