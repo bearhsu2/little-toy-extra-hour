@@ -24,6 +24,10 @@ public class PunchFileLoader {
         this.dataList = new ArrayList<>();
     }
 
+    public void setFileName(String fileName){
+        this.FILE_NAME = fileName;
+    }
+
     public void loadData() throws IOException {
 
         ClassLoader classLoader = getClass().getClassLoader();

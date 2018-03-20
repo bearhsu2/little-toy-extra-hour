@@ -104,12 +104,12 @@ public class Calculator {
     }
 
     double computeWeightHourOnNormalDay(double realHours) {
-        double[] weightTable = {1.3333, 1.3333, 1.6666, 1.6666, 1.6666, 1.6666, 1.6666, 1.6666, 1.6666, 1.6666};
+        double[] weightTable = {1.34, 1.34, 1.67, 1.67, 1.67, 1.67, 1.67, 1.67, 1.67, 1.67};
         return multHourWith(realHours, weightTable);
     }
 
     double computeWeightHourOnHoliday(double realHours) {
-        double[] weightTable = {8, 0, 0, 0, 0, 0, 0, 0, 1.333333, 1.333333, 1.66666, 1.66666, 1.66666, 1.66666, 1.66666, 1.66666, 1.66666, 1.66666, 1.66666};
+        double[] weightTable = {8, 0, 0, 0, 0, 0, 0, 0, 1.34, 1.34, 1.67, 1.67, 1.67, 1.67, 1.67, 1.67, 1.67, 1.67, 1.67};
         return multHourWith(realHours, weightTable);
     }
 
@@ -123,12 +123,12 @@ public class Calculator {
             }
             hour--;
         }
-        return Math.round(sum * 100) * 0.01;
+        return sum;
     }
 
     double computeWeightHourOnRestday(double realWorkHours) {
-        double[] weightTable = {1.333333, 1.333333, 1.666666, 1.666666, 1.666666, 1.666666, 1.666666, 1.666666
-                , 2.666666, 2.666666, 2.666666, 2.666666, 2.666666, 2.666666, 2.666666, 2.666666};
+        double[] weightTable = {1.34, 1.34, 1.67, 1.67, 1.67, 1.67, 1.67, 1.67
+                , 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67, 2.67};
         return multHourWith(realWorkHours, weightTable);
     }
 

@@ -8,13 +8,18 @@ import java.util.List;
 
 public class HourFileWriter {
 
-    private static final String FILE_NAME = "hour.csv";
+    private String FILE_NAME = "hour.csv";
 
     List<ApprovedData> dataList;
 
     public HourFileWriter(List<ApprovedData> dataList) {
         this.dataList = dataList;
     }
+
+    public void setFileName(String fileName){
+        this.FILE_NAME = fileName;
+    }
+
 
     public void writeData() throws IOException {
         boolean firstWrite = false;

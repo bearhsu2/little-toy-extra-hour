@@ -70,6 +70,6 @@ public class CalculatorTest2 {
     public void theWeightHourOfFirst_is267() {
         calculator.calculate();
         ApprovedData data = calculator.getApprovedDataList().get(0);
-        Assert.assertEquals(2.67, data.getWeightedHours(), 0.01);
+        Assert.assertEquals(2.68, data.getWeightedHours(), 0.01);
     }
 }
