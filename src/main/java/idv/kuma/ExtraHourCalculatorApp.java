@@ -37,12 +37,10 @@ public class ExtraHourCalculatorApp {
     private void loadData() throws IOException {
         // Load extra hour application record
         ApplicationFileLoader applicationFileLoader = new ApplicationFileLoader();
-        applicationFileLoader.setFileName("application7.csv");
         applicationFileLoader.loadData();
         applicationDataList = applicationFileLoader.getDataList();
 
         PunchFileLoader punchFileLoader = new PunchFileLoader();
-        punchFileLoader.setFileName("punch77.csv");
         punchFileLoader.loadData();
         punchDataList = punchFileLoader.getDataList();
 
@@ -56,7 +54,6 @@ public class ExtraHourCalculatorApp {
 
     private void output() throws IOException {
         HourFileWriter writer = new HourFileWriter(approvedDataList);
-        writer.setFileName("hour77.csv");
         writer.writeData();
     }
 
