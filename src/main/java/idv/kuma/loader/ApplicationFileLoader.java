@@ -31,7 +31,10 @@ public class ApplicationFileLoader {
 
 
         ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(classLoader.getResource(FILE_NAME).getFile());
+        File file = new File(classLoader.getResource(FILE_NAME).getPath());
+        if(!file.exists()){
+            file = new File(FILE_NAME);
+        }
 
         ApplicationDataLineParser parser = new ApplicationDataLineParser();
         CSVReader reader = null;

@@ -31,7 +31,10 @@ public class PunchFileLoader {
     public void loadData() throws IOException {
 
         ClassLoader classLoader = getClass().getClassLoader();
-        File file = new File(classLoader.getResource(FILE_NAME).getFile());
+        File file = new File(classLoader.getResource(FILE_NAME).getPath());
+        if(!file.exists()){
+            file = new File(FILE_NAME);
+        }
 
         PunchDataLineParser parser = new PunchDataLineParser();
 
