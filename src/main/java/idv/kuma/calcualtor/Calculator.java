@@ -47,19 +47,22 @@ public class Calculator {
         ApprovedData approvedData = new ApprovedData(applicationData);
         approvedData.setAppliedHours(computeAppliedHours(applicationData.getStartTime().toLocalTime(), applicationData.getEndTime().toLocalTime()));
         approvedData.setDate(applicationData.getStartTime().toLocalDate());
-        if (workDays.isEmpty()) {
-            approvedData.setRealHours(0);
-            approvedData.setWeightedHours(0);
-        } else {
+
+        try{
             PunchData punchData = workDays.get(0);
             approvedData.setRealHours(computeRealHours(applicationData, punchData));
             approvedData.setWeightedHours(computerWeightHours(approvedData.getType(), approvedData.getRealHours()));
+        }catch (Exception e){
+            approvedData.setRealHours(0);
+            approvedData.setWeightedHours(0);
+            approvedData.setRemark("資料有誤，請重新檢查");
+            System.out.println(String.format("%s 資料有誤", applicationData.getName()));
         }
 
         return approvedData;
     }
 
-    double computeRealHours(ApplicationData applicationData, PunchData punchData) {
+    double computeRealHours(ApplicationData applicationData, PunchData punchData) throws Exception {
 
         LocalTime startTime = applicationData.getStartTime().toLocalTime();
         if (punchData.getCheckinTime().isAfter(startTime)) {

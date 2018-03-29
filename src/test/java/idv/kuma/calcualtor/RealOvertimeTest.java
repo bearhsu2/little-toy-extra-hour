@@ -56,7 +56,7 @@ public class RealOvertimeTest {
     }
 
     @Test
-    public void restOvertimeTest() {
+    public void restOvertimeTest() throws Exception {
         double workHour = calculator.computeRealHours(applicationData, punchData);
         Assert.assertEquals(expectResult, workHour, 0.1);
     }

@@ -55,7 +55,7 @@ public class CalculatorTest {
     }
 
     @Test
-    public void when_punchTimeNotEqualApplicationTime_then_chooseLessOne() {
+    public void when_punchTimeNotEqualApplicationTime_then_chooseLessOne() throws Exception {
         Calculator calculator = new Calculator(null, null);
         ApplicationData data = new ApplicationData();
         data.setStartTime(LocalDateTime.of(2018, 3, 19, 19, 0));
@@ -70,7 +70,7 @@ public class CalculatorTest {
     }
 
     @Test
-    public void when_workMoreThen4Hour_then_rest1hour() {
+    public void when_workMoreThen4Hour_then_rest1hour() throws Exception {
         Calculator calculator = new Calculator(null, null);
         ApplicationData data = new ApplicationData();
         data.setStartTime(LocalDateTime.of(2018, 3, 17, 10, 0));
@@ -85,7 +85,7 @@ public class CalculatorTest {
     }
 
     @Test
-    public void when_workMoreThen12Hour_then_stillRest2hour() {
+    public void when_workMoreThen12Hour_then_stillRest2hour() throws Exception {
         Calculator calculator = new Calculator(null, null);
         ApplicationData data = new ApplicationData();
         data.setStartTime(LocalDateTime.of(2018, 3, 17, 10, 0));

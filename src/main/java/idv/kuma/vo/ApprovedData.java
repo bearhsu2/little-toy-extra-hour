@@ -10,6 +10,7 @@ public class ApprovedData {
     private double appliedHours;
     private double realHours;
     private double weightedHours;
+    private String remark = "";
 
 
     public ApprovedData(ApplicationData data) {
@@ -60,5 +61,13 @@ public class ApprovedData {
 
     public void setWeightedHours(double weightedHours) {
         this.weightedHours = weightedHours;
+    }
+
+    public String getRemark() {
+        return remark;
+    }
+
+    public void setRemark(String remark) {
+        this.remark = remark;
     }
 }

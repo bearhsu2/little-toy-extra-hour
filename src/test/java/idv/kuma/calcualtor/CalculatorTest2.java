@@ -72,4 +72,12 @@ public class CalculatorTest2 {
         ApprovedData data = calculator.getApprovedDataList().get(0);
         Assert.assertEquals(2.68, data.getWeightedHours(), 0.01);
     }
+
+    @Test(expected = NullPointerException.class)
+    public void when_punchNotCorrect_then_throwException() throws Exception {
+        punchDataList.get(0).setCheckinTime(null);
+
+        calculator.computeRealHours(applicationDataList.get(0),punchDataList.get(0));
+
+    }
 }
